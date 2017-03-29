@@ -30,13 +30,15 @@ public class App
 
       StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(
             configuration);
-      InputStream stream = new FileInputStream(new File("test2.wav"));
+      InputStream stream = new FileInputStream(new File("test.wav"));
 
       recognizer.startRecognition(stream);
       SpeechResult result;
+      String phrase = "";
       while ((result = recognizer.getResult()) != null) {
         System.out.format("Hypothesis: %s\n", result.getHypothesis());
-
+        phrase += result.getHypothesis();
+        phrase += " ";
         System.out.println("List of recognized words and their times:");
         for (WordResult r : result.getWords()) {
             System.out.println(r);
@@ -46,7 +48,7 @@ public class App
         for (String s : result.getNbest(3))
             System.out.println(s);
       }
-
+      System.out.println(phrase);
       recognizer.stopRecognition();
     }
 }
